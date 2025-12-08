@@ -87,9 +87,13 @@ class Battle:
             print('-------------------------------------------')
             print('')
             counter += 1
+            if self.hero.is_alive() == False:
+                print('O herói foi derrotado!')
+            elif self.monster.is_alive() == False:
+                print('O monstro foi derrotado!')
         print('--------------------------Fim de jogo--------------------------')
 
-hero = Hero('Gabriel', 50, 15, 10, 'shield')
+hero = Hero('Gabriel', 10, 15, 10, 'shield')
 monster = Monster('Orc', 30, 15, 10, 'fogo')
 battle = Battle(hero, monster)
 battle.start_battle()
