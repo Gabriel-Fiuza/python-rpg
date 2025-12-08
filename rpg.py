@@ -76,7 +76,7 @@ class Battle:
             print('Turno do Monstro')
             print(' ')
             self.hero.receive_damage(self.monster.damage(self.hero))
-            print(f'O monstro de {self.monster._type} deu {self.monster.damage(self.hero)} de dano ao herói')
+            print(f'O monstro do tipo {self.monster._type} deu {self.monster.damage(self.hero)} de dano ao herói')
             print(' ')
             print('-------------------------------------------')
             print(f'Fim do {counter}° round')
