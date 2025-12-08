@@ -93,7 +93,4 @@ class Battle:
                 print('O monstro foi derrotado!')
         print('--------------------------Fim de jogo--------------------------')
 
-hero = Hero('Gabriel', 10, 15, 10, 'shield')
-monster = Monster('Orc', 30, 15, 10, 'fogo')
-battle = Battle(hero, monster)
-battle.start_battle()
+
