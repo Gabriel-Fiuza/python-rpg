@@ -42,7 +42,7 @@ Este projeto foi desenvolvido com foco nas seguintes práticas de Engenharia de 
 
 Certifique-se de ter o Python instalado.
 
-1.  Copie o código do jogo para um arquivo chamado main.py.
+1.  Clone o projeto para seu computador usando o `git clone`
     
 2.  Adicione o seguinte bloco ao final do arquivo para iniciar o jogo:
     
@@ -57,11 +57,7 @@ batalha = Battle(heroi, monstro)
 batalha.start_battle()
 ```
 
-1.  Em seguida, execute no terminal:
-    
-```
-   python rpg.py
-```
+3.  Em seguida, execute no terminal o caminho até o arquivo do jogo
 
 🛠️ Próximos Passos (Roadmap)
 -----------------------------
