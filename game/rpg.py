@@ -2,8 +2,8 @@ from enum import Enum
 import random
 
 class MonsterType(Enum):
-    MAGE = 'Mage'
-    WARRIOR = 'Warrior'
+    MAGE = 'Mago'
+    WARRIOR = 'Guerreiro'
     ORC = 'Orc'
 
 class SkillType(Enum):
@@ -17,7 +17,7 @@ def spawn_monster():
     life = random.randint(20, 50)
     atk = random.randint(5, 15)
     defense = random.randint(1, 10)
-    return Monster('Orc', life, atk, defense, chosen_type)
+    return Monster('shadows', life, atk, defense, chosen_type)
 class Personagem:
     def __init__(self, name, life, atk, defense):
         self._name = name
@@ -64,7 +64,7 @@ class Hero(Personagem):
             print(f'O herói aumentou sua defesa para {self._defense}')
         
     def __str__(self):
-        return f'Hero ({self._current_life} / {self._life})'
+        return f'{self._name} ({self._current_life} / {self._life})'
    
 class Monster(Personagem):
     def __init__(self, name, life, atk, defense, type: MonsterType):
@@ -91,6 +91,11 @@ class Battle:
     
     def start_battle(self):
         counter = 1
+        print('')
+        print(self.monster)
+        print(' ')
+        print(self.hero)
+        print(' ')
         while self.hero.is_alive() == True:
             print(f'--------------------------Round {counter}--------------------------')
             print(' ')
@@ -101,6 +106,11 @@ class Battle:
                 dano_causado = int(self.hero.damage(self.monster))
                 self.monster.receive_damage(dano_causado)
                 print(f'O herói {self.hero._name} deu {dano_causado} de dano ao monstro')
+                if self.monster.is_alive() == False:
+                    print('O monstro foi derrotado!')
+                    exp_ganho = self.monster.exp()
+                    self.hero.receive_exp(exp_ganho)
+                    break
             elif input_hero == '2':
                 self.hero.use_skill(self.monster)
             else:
@@ -123,13 +133,25 @@ class Battle:
             counter += 1
             if self.monster.is_alive() == False:
                 print('O monstro foi derrotado!')
+
                 exp_ganho = self.monster.exp()
                 self.hero.receive_exp(exp_ganho)
-                print(f'O herói ganhou {exp_ganho} pontos de experiência!')
-                Battle(hero, spawn_monster()).start_battle()
-        print('--------------------------Fim de jogo--------------------------')
+                break
+        print('-----------------------------------------------------------')
 
 # Exemplo de uso:
-hero = Hero('Aragorn', 100, 20, 10, SkillType.HEAL)
-battle = Battle(hero, spawn_monster())
-battle.start_battle()
+hero = Hero('Fiuza', 50, 20, 10, SkillType.HEAL)
+number_battle = 1
+while hero.is_alive():
+    print('Um novo monstro apareceu!')
+    print('')
+    print(f'Batalha {number_battle}:')
+    battle = Battle(hero, spawn_monster())
+    battle.start_battle()
+    number_battle += 1
+xp_total = hero._exp
+print(f'O herói acumulou um total de {xp_total} pontos de experiência.')
+print('')
+print(f'O herói lutou em {number_battle - 1} batalhas.')
+print('')
+print('------------------- O herói foi derrotado! Fim do jogo. -------------------')
