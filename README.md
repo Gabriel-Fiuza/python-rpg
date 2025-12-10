@@ -1,40 +1,60 @@
-⚔️ The Pythonic RPG Battle System
-=================================
+⚔️ The Pythonic RPG: Survival Mode
+==================================
 
-Um sistema de batalha por turnos desenvolvido em **Python** para aplicar e demonstrar conceitos fundamentais de **Programação Orientada a Objetos (POO)**.
+Um sistema de batalha infinito por turnos desenvolvido em **Python**. Este projeto demonstra a evolução de conceitos de **POO**, saindo de classes básicas para o uso de **Tipagem Estrita (Enums)**, **Geração Procedural** e **Fluxo de Jogo Contínuo**.
 
-O projeto simula um combate entre um Herói (com habilidades especiais) e um Monstro, gerenciando turnos, cálculo de dano, defesa e condições de vitória.
+O Herói luta contra ondas infinitas de monstros gerados aleatoriamente, acumulando experiência (XP) e utilizando habilidades especiais.
 
-🧠 Conceitos Aplicados
-----------------------
+🧠 Conceitos e Tecnologias Aplicadas
+------------------------------------
 
-Este projeto foi desenvolvido com foco nas seguintes práticas de Engenharia de Software:
+Este projeto vai além do básico, implementando padrões importantes de desenvolvimento:
 
-*   **Programação Orientada a Objetos (POO):** Organização do código em classes (Personagem, Hero, Monster, Battle).
+*   **Enumerators (Enums):** Uso da biblioteca enum para criar tipos estritos (MonsterType, SkillType). Isso evita "Magic Strings" e erros de digitação, tornando o código mais seguro e profissional.
     
-*   **Herança:** Reutilização de código onde Hero e Monster herdam atributos e métodos da classe base Personagem.
+*   **Factory Pattern (Simplificado):** Implementação da função spawn\_monster(), que atua como uma fábrica geradora de instâncias de monstros com atributos aleatórios.
     
-*   **Encapsulamento:** Uso de atributos protegidos (ex: \_life, \_attack) para preservar a integridade do estado dos objetos.
+*   **Geração Procedural (Random):** Uso do módulo random para variar tipos de inimigos, vida, ataque e defesa a cada nova rodada.
     
-*   **Lógica de Game Loop:** Implementação de um laço while para gerenciar os turnos da batalha até que uma condição de fim (HP <= 0) seja atendida.
+*   **Sistema de Experiência (XP):** Lógica de recompensa onde diferentes tipos de monstros concedem quantidades diferentes de XP ao serem derrotados.
     
-*   **Polimorfismo:** Estrutura preparada para suportar diferentes comportamentos de ataque e habilidades.
+*   **Correção de Herança:** Ajuste preciso na ordem de inicialização do super().\_\_init\_\_ para garantir a integridade dos dados entre classe Mãe e Filha.
     
 
-🎮 Funcionalidades
-------------------
+🎮 Novas Funcionalidades
+------------------------
 
-*   **Criação de Personagens:** Atributos personalizáveis de Vida, Ataque e Defesa.
+### 1\. Tipos de Monstros (Tipados via Enum)
+
+O jogo agora gera três classes de inimigos, cada um valendo uma quantidade de XP:
+
+*   🧙‍♂️ **Mage:** 50 XP
     
-*   **Sistema de Habilidades:** O Herói possui habilidades únicas:
+*   ⚔️ **Warrior:** 30 XP
     
-    *   heal: Recupera 10 pontos de vida.
-        
-    *   double hit: Causa o dobro de dano no turno.
-        
-    *   shield: Aumenta a defesa em 50% temporariamente.
-        
-*   **Log de Batalha:** Interface via terminal (CLI) que narra cada rodada, mostrando dano causado e vida restante.
+*   👹 **Orc:** 70 XP
+    
+
+### 2\. Habilidades do Herói
+
+O jogador pode escolher entre ações táticas baseadas em SkillType:
+
+*   HEAL: Recupera vida.
+    
+*   DOUBLE\_HIT: Causa 2x o dano normal.
+    
+*   SHIELD: Aumenta a defesa em 50%.
+    
+
+### 3\. Loop Infinito (Survival)
+
+Ao derrotar um monstro:
+
+1.  O XP é creditado ao Herói.
+    
+2.  Um novo monstro é gerado automaticamente (spawn\_monster).
+    
+3.  A batalha reinicia imediatamente mantendo a vida atual do Herói.
     
 
 🚀 Como Executar
@@ -42,35 +62,45 @@ Este projeto foi desenvolvido com foco nas seguintes práticas de Engenharia de 
 
 Certifique-se de ter o Python instalado.
 
-1.  Clone o projeto para seu computador usando o `git clone`
+1.  Copie o código do github com o `git clone`.
     
-2.  Adicione o seguinte bloco ao final do arquivo para iniciar o jogo:
-    
+2.  Execute no terminal:
 
 ```bash
-# Instanciando o Herói (Nome, Vida, Ataque, Defesa, Habilidade)
-heroi = Hero("Aragorn", 100, 20, 5, "double hit")  
-# Instanciando o Monstro (Nome, Vida, Ataque, Defesa, Tipo) 
-monstro = Monster("Orc", 80, 15, 2, "Guerreiro")  
-# Iniciando a Batalha      
-batalha = Battle(heroi, monstro)      
-batalha.start_battle()
+python rpg-python
+
 ```
+    
 
-3.  Em seguida, execute no terminal o caminho até o arquivo do jogo
-
-🛠️ Próximos Passos (Roadmap)
+🛠️ Exemplo de Código (Enums)
 -----------------------------
 
-Futuras melhorias planejadas para o projeto:
+Um destaque da implementação técnica é o uso de Enums para controle de fluxo:
 
-*   \[ \] Adicionar aleatoriedade (Random) para danos críticos e esquivas.
+```bash
+
+class MonsterType(Enum):  
+    MAGE = 'Mage'     
+    WARRIOR = 'Warrior'      
+    ORC = 'Orc'  
     
-*   \[ \] Implementar sistema de níveis (Level Up).
+    # No momento da criação, garantimos que o tipo é válido:  
+    def spawn_monster():      
+        chosen_type = random.choice([MonsterType.MAGE, MonsterType.WARRIOR, MonsterType.ORC])
+        return Monster(..., type=chosen_type)
+
+```
+
+🔮 Roadmap (Melhorias Futuras)
+------------------------------
+
+*   \[ \] Implementar sistema de **Level Up** (Aumentar atributos quando atingir X de experiência).
     
-*   \[ \] Criar inventário de itens (poções).
+*   \[ \] Adicionar chance de erro (Miss) nos ataques.
     
-*   \[ \] Criar novos tipos de monstros com habilidades específicas.
+*   \[ \] Criar um Boss que aparece a cada 5 rodadas.
+    
+*   \[ \] Salvar o recorde de XP em um arquivo .txt.
     
 
-_Desenvolvido para fins de estudo em Python e POO._
+_Projeto desenvolvido para estudo aprofundado de Python e Engenharia de Software._
