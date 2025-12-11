@@ -67,7 +67,9 @@ Certifique-se de ter o Python instalado.
 2.  Execute no terminal:
 
 ```bash
-python rpg-python
+cd rpg-python
+cd game
+python rpg.py
 
 ```
     

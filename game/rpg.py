@@ -49,6 +49,44 @@ class Hero(Personagem):
         super().__init__( name, life, atk, defense)
         self.special_skill = special
 
+    def level_up(self):
+        first_level = True
+        second_level = True
+        third_level = True
+        if first_level == True and self._exp >= 50:
+            self._life += 10
+            self._attack += 5
+            self._defense += 2
+            self._current_life = self._life
+            self._exp = 0
+            first_level = False
+            print(f'O herói {self._name} subiu de nível! Vida: {self._life}, Ataque: {self._attack}, Defesa: {self._defense}')
+        elif second_level == True and self._exp >= 100:
+            self._life += 15
+            self._attack += 7
+            self._defense += 3
+            self._current_life = self._life
+            self._exp = 0
+            second_level = False
+            print(f'O herói {self._name} subiu de nível! Vida: {self._life}, Ataque: {self._attack}, Defesa: {self._defense}')
+        elif third_level == True and self._exp >= 150:
+            self._life += 20
+            self._attack += 10
+            self._defense += 5
+            self._current_life = self._life
+            self._exp = 0
+            third_level = False
+            print(f'O herói {self._name} subiu de nível! Vida: {self._life}, Ataque: {self._attack}, Defesa: {self._defense}')
+        elif self._exp >= 200:
+            self._life += 25
+            self._attack += 12
+            self._defense += 6
+            self._current_life = self._life
+            self._exp = 0
+            print(f'O herói {self._name} subiu de nível! Vida: {self._life}, Ataque: {self._attack}, Defesa: {self._defense}')
+        else:
+            None
+
     def receive_exp(self, exp_given):
         self._exp += exp_given
     
@@ -74,15 +112,15 @@ class Monster(Personagem):
     def exp(self):
         if not self.is_alive():
             if self._type == MonsterType.MAGE:
-                return 50
+                return 20
             if self._type == MonsterType.WARRIOR:
-                return 30
+                return 15
             if self._type == MonsterType.ORC:
-                return 70
+                return 30
         return 0
 
     def __str__(self):
-        return f'Orc ({self._current_life} / {self._life})'
+        return f'{self._name} ({self._current_life} / {self._life})'
     
 class Battle:
     def __init__(self, hero, monster):
@@ -103,6 +141,7 @@ class Battle:
             print(' ')
             input_hero = input("Selecione uma ação\n\n 1 - atacar \n 2 - usar habilidade especial\n\n")
             if input_hero == '1':
+                print(' ')
                 dano_causado = int(self.hero.damage(self.monster))
                 self.monster.receive_damage(dano_causado)
                 print(f'O herói {self.hero._name} deu {dano_causado} de dano ao monstro')
@@ -110,6 +149,9 @@ class Battle:
                     print('O monstro foi derrotado!')
                     exp_ganho = self.monster.exp()
                     self.hero.receive_exp(exp_ganho)
+                    print(' ')
+                    print(f'O herói ganhou {exp_ganho} pontos de experiência.')
+                    self.hero.level_up()
                     break
             elif input_hero == '2':
                 self.hero.use_skill(self.monster)
@@ -131,12 +173,6 @@ class Battle:
             print('-------------------------------------------')
             print('')
             counter += 1
-            if self.monster.is_alive() == False:
-                print('O monstro foi derrotado!')
-
-                exp_ganho = self.monster.exp()
-                self.hero.receive_exp(exp_ganho)
-                break
         print('-----------------------------------------------------------')
 
 # Exemplo de uso:
