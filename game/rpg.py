@@ -26,6 +26,10 @@ class Personagem:
         self._defense = defense
         self._current_life = life
         self._exp = 0
+        self._level = 1
+        self.first_level = True
+        self.second_level = True
+        self.third_level = True
 
     def is_alive(self):
         if self._current_life > 0:
@@ -50,32 +54,35 @@ class Hero(Personagem):
         self.special_skill = special
 
     def level_up(self):
-        first_level = True
-        second_level = True
-        third_level = True
-        if first_level == True and self._exp >= 50:
+        if self.first_level == True and self._exp >= 50:
             self._life += 10
             self._attack += 5
             self._defense += 2
             self._current_life = self._life
             self._exp = 0
-            first_level = False
+            self.first_level = False
+            self._level += 1
+            print(f'Level {self._level} alcançado!')
             print(f'O herói {self._name} subiu de nível! Vida: {self._life}, Ataque: {self._attack}, Defesa: {self._defense}')
-        elif second_level == True and self._exp >= 100:
+        elif self.second_level == True and self._exp >= 100:
             self._life += 15
             self._attack += 7
             self._defense += 3
             self._current_life = self._life
             self._exp = 0
-            second_level = False
+            self._level += 1
+            print(f'Level {self._level} alcançado!')
+            self.second_level = False
             print(f'O herói {self._name} subiu de nível! Vida: {self._life}, Ataque: {self._attack}, Defesa: {self._defense}')
-        elif third_level == True and self._exp >= 150:
+        elif self.third_level == True and self._exp >= 150:
             self._life += 20
             self._attack += 10
             self._defense += 5
             self._current_life = self._life
             self._exp = 0
-            third_level = False
+            self._level += 1
+            print(f'Level {self._level} alcançado!')
+            self.third_level = False
             print(f'O herói {self._name} subiu de nível! Vida: {self._life}, Ataque: {self._attack}, Defesa: {self._defense}')
         elif self._exp >= 200:
             self._life += 25
@@ -83,6 +90,8 @@ class Hero(Personagem):
             self._defense += 6
             self._current_life = self._life
             self._exp = 0
+            self._level += 1
+            print(f'Level {self._level} alcançado!')
             print(f'O herói {self._name} subiu de nível! Vida: {self._life}, Ataque: {self._attack}, Defesa: {self._defense}')
         else:
             None
