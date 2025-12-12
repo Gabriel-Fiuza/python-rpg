@@ -11,6 +11,20 @@ class SkillType(Enum):
     DOUBLE_HIT = 'double hit'
     SHIELD = 'shield'
 
+def chose_skill():
+    print("Escolha a habilidade especial do herói:")
+    print("1 - Heal")
+    print("2 - Double Hit")
+    print("3 - Shield")
+    choice = input("Digite o número da habilidade escolhida: ")
+    if choice == '1':
+        skill_chosen = SkillType.HEAL
+    elif choice == '2':
+        skill_chosen = SkillType.DOUBLE_HIT
+    elif choice == '3':
+        skill_chosen = SkillType.SHIELD
+        return skill_chosen
+
 def spawn_monster():
     monster_types = [MonsterType.MAGE, MonsterType.WARRIOR, MonsterType.ORC]
     chosen_type = random.choice(monster_types)
@@ -105,6 +119,7 @@ class Hero(Personagem):
             print(f'O herói se curou em 10 pontos de vida. Vida atual: {self._current_life}')
         elif (self.special_skill.value == 'double hit'):
             attack_damage = self.damage(target) * 2
+            print(f'O herói usou Double Hit e causou {attack_damage} de dano ao monstro')
             target.receive_damage(attack_damage)
         elif (self.special_skill.value == 'shield'):
             self._defense *= 1.5
@@ -185,7 +200,7 @@ class Battle:
         print('-----------------------------------------------------------')
 
 # Exemplo de uso:
-hero = Hero('Fiuza', 50, 20, 10, SkillType.HEAL)
+hero = Hero('Fiuza', 50, 20, 10, chose_skill())
 number_battle = 1
 while hero.is_alive():
     print('Um novo monstro apareceu!')
