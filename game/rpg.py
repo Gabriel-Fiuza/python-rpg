@@ -39,6 +39,8 @@ class Personagem:
         self._attack = atk
         self._defense = defense
         self._current_life = life
+        self._crit_chance = 0.15
+        self._dodge_chance = 0.05
 
     def is_alive(self):
         if self._current_life > 0:
@@ -47,8 +49,15 @@ class Personagem:
             return False
     
     def damage(self, target):
+
         if self._attack > target._defense:
+            if self._crit_chance > random.random():
+                print(f'Acerto crítico de {self._name}!')
+                return (self._attack * 2) - target._defense
             return self._attack - target._defense
+        elif self._dodge_chance > random.random():
+            print(f'{target._name} desviou do ataque!')
+            return 0
         else:
             return 0
     
@@ -70,47 +79,17 @@ class Hero(Personagem):
         self._life_potion = 5
 
     def level_up(self):
-        if self.first_level == True and self._exp >= 50:
-            self._life += 10
+
+        xp_necessario = self._level * 40
+        if self._exp >= xp_necessario:
+            self._level += 1
+            self._exp = 0
+            self._life += 15
             self._attack += 5
             self._defense += 2
             self._current_life = self._life
-            self.first_level = False
-            self._level += 1
             print(f'Level {self._level} alcançado!')
             print(f'O herói {self._name} subiu de nível! Vida: {self._life}, Ataque: {self._attack}, Defesa: {self._defense}')
-        elif self.second_level == True and self._exp >= 100:
-            self._life += 15
-            self._attack += 7
-            self._defense += 3
-            self._current_life = self._life
-            self._exp = 0
-            self._level += 1
-            print(f'Level {self._level} alcançado!')
-            self.second_level = False
-            print(f'O herói {self._name} subiu de nível! Vida: {self._life}, Ataque: {self._attack}, Defesa: {self._defense}')
-        elif self.third_level == True and self._exp >= 150:
-            self._life += 20
-            self._attack += 10
-            self._defense += 5
-            self._current_life = self._life
-            self._exp = 0
-            self._level += 1
-            print(f'Level {self._level} alcançado!')
-            print(' ')
-            self.third_level = False
-            print(f'O herói {self._name} subiu de nível! Vida: {self._life}, Ataque: {self._attack}, Defesa: {self._defense}')
-        elif self._exp >= 200:
-            self._life += 25
-            self._attack += 12
-            self._defense += 6
-            self._current_life = self._life
-            self._exp = 0
-            self._level += 1
-            print(f'Level {self._level} alcançado!')
-            print(f'O herói {self._name} subiu de nível! Vida: {self._life}, Ataque: {self._attack}, Defesa: {self._defense}')
-        else:
-            None
 
     def receive_exp(self, exp_given):
         self._exp += exp_given
@@ -125,7 +104,7 @@ class Hero(Personagem):
                 self._current_life += 0.2 * self._life
                 if self._current_life > self._life:
                     self._current_life = self._life
-                print(f'No herói usou uma poção de vida e recuperou 20% da sua vida máxima. Vida atual: {self._current_life}')
+                print(f'O herói usou uma poção de vida e recuperou 20% da sua vida máxima. Vida atual: {self._current_life}')
             else:
                 print(' ')
                 print('A vida do herói já está cheia!')
@@ -229,10 +208,11 @@ print('')
 number_battle = 1
 dificulty = 1
 while hero.is_alive():
-    print(f'Um novo monstro do tipo {spawn_monster(dificulty)._type.value} level {dificulty} apareceu!')
+    time_monster = spawn_monster(dificulty)
+    print(f'Um novo monstro do tipo {time_monster._type.value} level {dificulty} apareceu!')
     print('')
     print(f'Batalha {number_battle}:')
-    battle = Battle(hero, spawn_monster(dificulty))
+    battle = Battle(hero, time_monster)
     battle.start_battle()
     number_battle += 1
     if number_battle % 3 == 0:
