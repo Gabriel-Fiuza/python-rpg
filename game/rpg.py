@@ -8,19 +8,19 @@ class MonsterType(Enum):
 
 class SkillType(Enum):
     HEAL = 'heal'
-    DOUBLE_HIT = 'double hit'
+    DOUBLE_SWORD = 'double sword'
     SHIELD = 'shield'
 
 def chose_skill():
     print("Escolha a habilidade especial do herói:")
     print("1 - Heal")
-    print("2 - Double Hit")
+    print("2 - Double sword")
     print("3 - Shield")
     choice = input("Digite o número da habilidade escolhida: ")
     if choice == '1':
         skill_chosen = SkillType.HEAL
     elif choice == '2':
-        skill_chosen = SkillType.DOUBLE_HIT
+        skill_chosen = SkillType.DOUBLE_SWORD
     elif choice == '3':
         skill_chosen = SkillType.SHIELD
     return skill_chosen
@@ -47,7 +47,7 @@ class Personagem:
             return False
     
     def damage(self, target):
-        if self._attack > target._defense:
+        if self._attack - target._defense > 0:
             return self._attack - target._defense
         else:
             return 0
@@ -119,10 +119,9 @@ class Hero(Personagem):
         if (self._special_skill.value == 'heal'):
             self._current_life += 10
             print(f'O herói se curou em 10 pontos de vida. Vida atual: {self._current_life}')
-        elif (self._special_skill.value == 'double hit'):
-            attack_damage = self.damage(target) * 2
-            print(f'O herói usou Double Hit e causou {attack_damage} de dano ao monstro')
-            target.receive_damage(attack_damage)
+        elif (self._special_skill.value == 'double sword'):
+            self._attack *= 2
+            print(f'O herói aumentou seu ataque para {self._attack}')
         elif (self._special_skill.value == 'shield'):
             self._defense *= 1.5
             print(f'O herói aumentou sua defesa para {self._defense}')
@@ -202,7 +201,7 @@ class Battle:
         print('-----------------------------------------------------------')
 
 # Exemplo de uso:
-hero = Hero('Fiuza', 50, 20, 10, chose_skill())
+hero = Hero('Fiuza', 50, 20, 25, chose_skill())
 print(f'O herói {hero._name} iniciou sua jornada com a habilidade especial: {hero._special_skill.value}')
 print('')
 number_battle = 1
