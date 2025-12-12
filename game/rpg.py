@@ -47,7 +47,7 @@ class Personagem:
             return False
     
     def damage(self, target):
-        if self._attack - target._defense > 0:
+        if self._attack > target._defense:
             return self._attack - target._defense
         else:
             return 0
@@ -201,7 +201,7 @@ class Battle:
         print('-----------------------------------------------------------')
 
 # Exemplo de uso:
-hero = Hero('Fiuza', 50, 20, 25, chose_skill())
+hero = Hero('Fiuza', 100, 20, 25, chose_skill())
 print(f'O herói {hero._name} iniciou sua jornada com a habilidade especial: {hero._special_skill.value}')
 print('')
 number_battle = 1
