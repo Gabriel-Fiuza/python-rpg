@@ -67,6 +67,7 @@ class Hero(Personagem):
         self.first_level = True
         self.second_level = True
         self.third_level = True
+        self._life_potion = 5
 
     def level_up(self):
         if self.first_level == True and self._exp >= 50:
@@ -114,6 +115,24 @@ class Hero(Personagem):
     def receive_exp(self, exp_given):
         self._exp += exp_given
         self._total_exp += exp_given
+
+    def refresh_potion(self):
+        self._life_potion += 1
+
+    def use_potion(self):
+        if (self._life_potion > 0):
+            if self._current_life < self._life:
+                self._current_life += 0.2 * self._life
+                if self._current_life > self._life:
+                    self._current_life = self._life
+                print(f'No herói usou uma poção de vida e recuperou 20% da sua vida máxima. Vida atual: {self._current_life}')
+            else:
+                print(' ')
+                print('A vida do herói já está cheia!')
+                return
+        else:
+            print(' ')
+            print('O herói não possui poções de vida!')
     
     def use_skill(self, target):
         if (self._special_skill.value == 'heal'):
@@ -164,7 +183,7 @@ class Battle:
             print(' ')
             print('Turno do Herói')
             print(' ')
-            input_hero = input("Selecione uma ação\n\n 1 - atacar \n 2 - usar habilidade especial\n\n")
+            input_hero = input("Selecione uma ação\n\n 1 - atacar \n 2 - usar habilidade especial \n 3 - Usar poção de vida\n\n")
             if input_hero == '1':
                 print(' ')
                 dano_causado = int(self.hero.damage(self.monster))
@@ -172,6 +191,9 @@ class Battle:
                 print(f'O herói {self.hero._name} deu {dano_causado} de dano ao monstro')
             elif input_hero == '2':
                 self.hero.use_skill(self.monster)
+            elif input_hero == '3':
+                self.hero.use_potion()
+                continue
             else:
                 print('Entrada inválida!')
                 continue
@@ -214,6 +236,7 @@ while hero.is_alive():
     battle.start_battle()
     number_battle += 1
     if number_battle % 3 == 0:
+        hero.refresh_potion()
         dificulty += 1
 xp_total = hero._total_exp
 print(f'O herói acumulou um total de {xp_total} pontos de experiência.')
