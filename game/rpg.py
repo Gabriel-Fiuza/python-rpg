@@ -77,6 +77,7 @@ class Hero(Personagem):
         self.second_level = True
         self.third_level = True
         self._life_potion = 5
+        self._coins = 0
 
     def level_up(self):
 
@@ -91,7 +92,75 @@ class Hero(Personagem):
             print(f'Level {self._level} alcançado!')
             print(f'O herói {self._name} subiu de nível! Vida: {self._life}, Ataque: {self._attack}, Defesa: {self._defense}')
 
-    def receive_exp(self, exp_given):
+    def show_shop(self):
+        print(f'Você tem {self._coins} moedas.')
+        print('1 - Poção de vida (10 moedas)')
+        print('2 - Amolar espada (20 moedas)')
+        print('3 - Comprar armadura (15 moedas)')
+        print('4 - Sair da loja')
+
+    def shop(self):
+        print('Bem-vindo à loja!')
+        self.show_shop()
+        choice = input('O que você deseja comprar? ')
+        while choice != '4':
+            if choice == '1':
+                if self._coins >= 10:
+                    self._life_potion += 1
+                    self._coins -= 10
+                    print(' ')
+                    print('Você comprou uma poção de vida!')
+                    print(' ')
+                    self.show_shop()
+                    choice = input('O que você deseja comprar? ')
+                else:
+                    print(' ')
+                    print('Moedas insuficientes!')
+                    print(' ')
+                    self.show_shop()
+                    choice = input('O que você deseja comprar? ')
+            elif choice == '2':
+                if self._coins >= 20:
+                    self._attack += 5
+                    self._coins -= 20
+                    print(' ')
+                    print('Você amolou sua espada! Seu ataque aumentou em 5 pontos.')
+                    print(' ')
+                    self.show_shop()
+                    choice = input('O que você deseja comprar? ')
+                else:
+                    print(' ')
+                    print('Moedas insuficientes!')
+                    print(' ')
+                    self.show_shop()
+                    choice = input('O que você deseja comprar? ')
+            elif choice == '3':
+                if self._coins >= 15:
+                    self._defense += 3
+                    self._coins -= 15
+                    print(' ')
+                    print('Você comprou uma armadura! Sua defesa aumentou em 3 pontos.')
+                    print(' ')
+                    self.show_shop()
+                    choice = input('O que você deseja comprar? ')
+                else:
+                    print(' ')
+                    print('Moedas insuficientes!')
+                    print(' ')
+                    self.show_shop()
+                    choice = input('O que você deseja comprar? ')
+            else:
+                print(' ')
+                print('Opção inválida!')
+                print(' ')
+                self.show_shop()
+                choice = input('O que você deseja comprar? ')
+        print(' ')
+        print('Fechando a loja...')
+        print(' ')
+
+    def receive_exp_coin(self, exp_given):
+        self._coins += exp_given
         self._exp += exp_given
         self._total_exp += exp_given
 
@@ -179,7 +248,7 @@ class Battle:
             if self.monster.is_alive() == False:
                     print('O monstro foi derrotado!')
                     exp_ganho = self.monster.exp()
-                    self.hero.receive_exp(exp_ganho)
+                    self.hero.receive_exp_coin(exp_ganho)
                     print(' ')
                     print(f'O herói ganhou {exp_ganho} pontos de experiência.')
                     self.hero.level_up()
@@ -218,6 +287,8 @@ while hero.is_alive():
     if number_battle % 3 == 0:
         hero.refresh_potion()
         dificulty += 1
+    if number_battle % 5 == 0:
+        hero.shop()
 xp_total = hero._total_exp
 print(f'O herói acumulou um total de {xp_total} pontos de experiência.')
 print('')
