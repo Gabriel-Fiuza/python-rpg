@@ -73,9 +73,6 @@ class Hero(Personagem):
         self._exp = 0
         self._total_exp = 0
         self._level = 1
-        self.first_level = True
-        self.second_level = True
-        self.third_level = True
         self._life_potion = 5
         self._coins = 0
 
