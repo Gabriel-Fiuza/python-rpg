@@ -49,7 +49,9 @@ def chose_skill():
     print(f"1 - Fireball | Descrição: {SkillFireBall()._description}")
     print(f"2 - Double sword | Descrição: {SkillDoubleSword()._description}")
     print(f"3 - Shield | Descrição: {SkillShield()._description}")
+    print(" ")
     choice = input("Digite o número da habilidade escolhida: ")
+    print(" ")
     if choice == '1':
         return SkillFireBall()
     elif choice == '2':
@@ -64,7 +66,6 @@ def spawn_monster(dificulty):
     atk = random.randint(5, 15) * dificulty
     defense = random.randint(5, 10) * dificulty
     return Monster(f'Monstro {chosen_type.value}', life, atk, defense, chosen_type)
-
     
 class Personagem:
     def __init__(self, name, life, atk, defense):
@@ -75,6 +76,7 @@ class Personagem:
         self._current_life = life
         self._crit_chance = 0.15
         self._dodge_chance = 0.05
+        self._mana = 100
 
     def is_alive(self):
         if self._current_life > 0:
@@ -152,10 +154,10 @@ class Hero(Personagem):
                     choice = input('O que você deseja comprar? ')
             elif choice == '2':
                 if self._coins >= 20:
-                    self._attack += 5
+                    self._attack += 10
                     self._coins -= 20
                     print(' ')
-                    print('Você amolou sua espada! Seu ataque aumentou em 5 pontos.')
+                    print('Você amolou sua espada! Seu ataque aumentou em 10 pontos.')
                     print(' ')
                     self.show_shop()
                     choice = input('O que você deseja comprar? ')
@@ -167,10 +169,10 @@ class Hero(Personagem):
                     choice = input('O que você deseja comprar? ')
             elif choice == '3':
                 if self._coins >= 15:
-                    self._defense += 3
+                    self._defense += 5
                     self._coins -= 15
                     print(' ')
-                    print('Você comprou uma armadura! Sua defesa aumentou em 3 pontos.')
+                    print('Você comprou uma armadura! Sua defesa aumentou em 5 pontos.')
                     print(' ')
                     self.show_shop()
                     choice = input('O que você deseja comprar? ')
@@ -202,6 +204,7 @@ class Hero(Personagem):
         if (self._life_potion > 0):
             if self._current_life < self._life:
                 self._current_life += 0.2 * self._life
+                self._life_potion -= 1
                 if self._current_life > self._life:
                     self._current_life = self._life
                 print(f'O herói usou uma poção de vida e recuperou 20% da sua vida máxima. Vida atual: {self._current_life}')
@@ -214,8 +217,14 @@ class Hero(Personagem):
             print('O herói não possui poções de vida!')
     
     def use_skill(self, target):
-        self._special_skill.cast(self, target)
-        
+        if self._mana < 25:
+            print('Mana insuficiente para usar a habilidade especial!')
+            return 1
+        else:    
+            self._mana -= 25
+            self._special_skill.cast(self, target)
+            print(f'Mana restante: {self._mana}')
+
     def __str__(self):
         return f'{self._name} ({self._current_life} / {self._life})'
    
@@ -261,7 +270,8 @@ class Battle:
                 self.monster.receive_damage(dano_causado)
                 print(f'O herói {self.hero._name} deu {dano_causado} de dano ao monstro')
             elif input_hero == '2':
-                self.hero.use_skill(self.monster)
+                if self.hero.use_skill(self.monster) == 1:
+                    continue
             elif input_hero == '3':
                 self.hero.use_potion()
                 continue
@@ -300,8 +310,12 @@ print('')
 number_battle = 1
 dificulty = 1
 while hero.is_alive():
-    time_monster = spawn_monster(dificulty)
-    print(f'Um novo monstro do tipo {time_monster._type.value} level {dificulty} apareceu!')
+    if number_battle % 7 == 0:
+        time_monster = spawn_monster(dificulty + 2)
+        print('------------------- O BOSS APARECEU! -------------------')
+    else:
+        time_monster = spawn_monster(dificulty)
+        print(f'Um novo monstro do tipo {time_monster._type.value} level {dificulty} apareceu!')
     print('')
     print(f'Batalha {number_battle}:')
     battle = Battle(hero, time_monster)
@@ -312,6 +326,8 @@ while hero.is_alive():
         dificulty += 1
     if number_battle % 5 == 0 and hero.is_alive():
         hero.shop()
+    if not hero._mana >= 100:
+        hero._mana += 10
 xp_total = hero._total_exp
 print(f'O herói acumulou um total de {xp_total} pontos de experiência.')
 print('')
