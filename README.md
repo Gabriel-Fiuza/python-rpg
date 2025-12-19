@@ -149,4 +149,4 @@ def damage(self, target):
 *   \[ \] Criar interface gráfica.
     
 
-Desenvolvido com 🐍 por **\[Gabriel Fiuza\]**.
+Desenvolvido com 🐍 por **Gabriel Fiuza**.
