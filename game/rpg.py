@@ -19,12 +19,11 @@ class Skill():
 
 class SkillFireBall(Skill):
     def __init__(self):
-        super().__init__(SkillType.FIREBALL.value, "Conjura uma bola de fogo que causa 100 de dano")
+        super().__init__(SkillType.FIREBALL.value, "Conjura uma bola de fogo que causa 70 de dano")
 
     def cast(self, user, target):
-        target._current_life -= 100
-        print(f'✨  {user._name} usou {self._skill_type} e causou 100 de dano.')
-
+        target._current_life -= 70
+        print(f'✨  {user._name} usou {self._skill_type} e causou 70 de dano.')
 class SkillDoubleSword(Skill):
     def __init__(self):
         super().__init__(SkillType.DOUBLE_SWORD.value, "Causa 2x o dano normal")
