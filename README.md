@@ -1,108 +1,139 @@
-⚔️ The Pythonic RPG: Survival Mode
-==================================
+⚔️ The Pythonic RPG: Legacy Edition
+===================================
 
-Um sistema de batalha infinito por turnos desenvolvido em **Python**. Este projeto demonstra a evolução de conceitos de **POO**, saindo de classes básicas para o uso de **Tipagem Estrita (Enums)**, **Geração Procedural** e **Fluxo de Jogo Contínuo**.
+Um RPG de texto robusto e infinito desenvolvido em **Python**. Este projeto simula um sistema de batalha completo com mecânicas de RPG clássico, focado na aplicação prática de **Programação Orientada a Objetos (POO)** e lógica de sistemas.
 
-O Herói luta contra ondas infinitas de monstros gerados aleatoriamente, acumulando experiência (XP) e utilizando habilidades especiais.
+🌟 Sobre o Projeto
+------------------
 
-🧠 Conceitos e Tecnologias Aplicadas
+O objetivo deste projeto foi criar um motor de jogo escalável onde um Herói enfrenta ondas infinitas de monstros. A cada batalha, a dificuldade aumenta, exigindo que o jogador gerencie recursos (ouro e poções), melhore seus atributos na loja e tome decisões estratégicas.
+
+🚀 Funcionalidades Principais (v3.0)
 ------------------------------------
 
-Este projeto vai além do básico, implementando padrões importantes de desenvolvimento:
+### 🗡️ Sistema de Combate Avançado
 
-*   **Enumerators (Enums):** Uso da biblioteca enum para criar tipos estritos (MonsterType, SkillType). Isso evita "Magic Strings" e erros de digitação, tornando o código mais seguro e profissional.
+*   **RNG (Random Number Generation):** Implementação de chances de **Crítico** (Dano x2) e **Esquiva** (Dano 0).
     
-*   **Factory Pattern (Simplificado):** Implementação da função spawn\_monster(), que atua como uma fábrica geradora de instâncias de monstros com atributos aleatórios.
+*   **Skills Táticas:**
     
-*   **Geração Procedural (Random):** Uso do módulo random para variar tipos de inimigos, vida, ataque e defesa a cada nova rodada.
-    
-*   **Sistema de Experiência (XP):** Lógica de recompensa onde diferentes tipos de monstros concedem quantidades diferentes de XP ao serem derrotados.
-    
-*   **Correção de Herança:** Ajuste preciso na ordem de inicialização do super().\_\_init\_\_ para garantir a integridade dos dados entre classe Mãe e Filha.
-    
-
-🎮 Novas Funcionalidades
-------------------------
-
-### 1\. Tipos de Monstros (Tipados via Enum)
-
-O jogo agora gera três classes de inimigos, cada um valendo uma quantidade de XP:
-
-*   🧙‍♂️ **Mage:** 50 XP
-    
-*   ⚔️ **Warrior:** 30 XP
-    
-*   👹 **Orc:** 70 XP
+    *   Heal: Cura instantânea.
+        
+    *   Double Sword: Ataque devastador.
+        
+    *   Shield: Buff defensivo.
+        
+*   **Inimigos Dinâmicos:** Monstros (Mage, Warrior, Orc) gerados proceduralmente com atributos baseados na dificuldade atual.
     
 
-### 2\. Habilidades do Herói
+### 💰 Economia e Loja (Novo!)
 
-O jogador pode escolher entre ações táticas baseadas em SkillType:
+*   **Sistema de Moedas:** Monstros dropam ouro ao morrer.
+    
+*   **Loja Interativa:** O jogador pode acessar um menu de compra a cada 5 rodadas para:
+    
+    *   Comprar Poções de Vida.
+        
+    *   Afiar a Espada (Aumento permanente de Ataque).
+        
+    *   Reforçar Armadura (Aumento permanente de Defesa).
+        
 
-*   HEAL: Recupera vida.
-    
-*   DOUBLE\_HIT: Causa 2x o dano normal.
-    
-*   SHIELD: Aumenta a defesa em 50%.
-    
+### 📈 Progressão Infinita
 
-### 3\. Loop Infinito (Survival)
-
-Ao derrotar um monstro:
-
-1.  O XP é creditado ao Herói.
+*   **Level Up:** O Herói acumula XP e sobe de nível, restaurando vida e aumentando status base.
     
-2.  Um novo monstro é gerado automaticamente (spawn\_monster).
-    
-3.  A batalha reinicia imediatamente mantendo a vida atual do Herói.
+*   **Survival Mode:** O jogo não tem fim. A dificuldade escala infinitamente até o jogador ser derrotado.
     
 
-🚀 Como Executar
+🛠️ Tecnologias e Conceitos
+---------------------------
+
+O código foi estruturado seguindo boas práticas de Engenharia de Software:
+
+*   **Orientação a Objetos:** Uso intensivo de Classes, Herança (Hero herda de Personagem) e Polimorfismo.
+    
+*   **Encapsulamento:** Proteção de atributos sensíveis (\_life, \_coins) com métodos de acesso controlados.
+    
+*   **Enums:** Uso da biblioteca enum para tipagem estrita de Habilidades e Monstros, evitando erros de string.
+    
+*   **Game Loop:** Controle de fluxo robusto que gerencia turnos, spawn de monstros e condições de vitória/derrota sem estourar a pilha de memória.
+    
+
+💻 Como Executar
 ----------------
 
-Certifique-se de ter o Python instalado.
+### Passo a Passo
 
-1.  Copie o código do github com o `git clone`.
+1.  git clone https://github.com/SEU\_USUARIO/python-rpg.git
     
-2.  Execute no terminal:
+2.  cd python-rpg
+   
+3.  cd game   
+    
+4.  python rpg.py
+    
+
+🎨 Exemplo de Gameplay
+----------------------
 
 ```bash
-cd rpg-python
-cd game
-python rpg.py
+--------------------------Round 3--------------------------
+
+Turno do Herói
+
+Selecione uma ação
+
+ 1 - atacar
+ 2 - usar habilidade especial
+ 3 - Usar poção de vida
+
+1
+
+O herói Fiuza deu 34 de dano ao monstro
+O monstro foi derrotado!
+
+O herói ganhou 30 pontos de experiência.
+-----------------------------------------------------------
+Bem-vindo à loja!
+Você tem 105 moedas.
+1 - Poção de vida (10 moedas)
+2 - Amolar espada (20 moedas)
+3 - Comprar armadura (15 moedas)
+4 - Sair da loja
+O que você deseja comprar?
 
 ```
-    
 
-🛠️ Exemplo de Código (Enums)
------------------------------
-
-Um destaque da implementação técnica é o uso de Enums para controle de fluxo:
-
-```bash
-
-class MonsterType(Enum):  
-    MAGE = 'Mage'     
-    WARRIOR = 'Warrior'      
-    ORC = 'Orc'  
-    
-    # No momento da criação, garantimos que o tipo é válido:  
-    def spawn_monster():      
-        chosen_type = random.choice([MonsterType.MAGE, MonsterType.WARRIOR, MonsterType.ORC])
-        return Monster(..., type=chosen_type)
-
-```
-
-🔮 Roadmap (Melhorias Futuras)
+🧠 Trecho de Código (Destaque)
 ------------------------------
 
-*   \[ \] Implementar sistema de **Level Up** (Aumentar atributos quando atingir X de experiência).
+Exemplo da lógica de dano com implementação de sorte (RNG):
+
+```bash
+def damage(self, target):
+    # Cálculo de Crítico
+    if self._attack > target._defense:
+        if self._crit_chance > random.random():
+            print(f'Acerto crítico de {self._name}!')
+            return (self._attack * 2) - target._defense
+        return self._attack - target._defense
     
-*   \[ \] Adicionar chance de erro (Miss) nos ataques.
+    # Cálculo de Esquiva
+    elif self._dodge_chance > random.random():
+        print(f'💨 {target._name} desviou do ataque!')
+        return 0
+    return 0
+```
+
+🔮 Próximos Passos
+------------------
+
+*   \[ \] Adicionar persistência de dados (Salvar/Carregar jogo em JSON).
     
-*   \[ \] Criar um Boss que aparece a cada 5 rodadas.
+*   \[ \] Implementar Boss Battles a cada 10 rodadas.
     
-*   \[ \] Salvar o recorde de XP em um arquivo .txt.
+*   \[ \] Criar interface gráfica com Pygame ou Web.
     
 
-_Projeto desenvolvido para estudo aprofundado de Python e Engenharia de Software._
+Desenvolvido com 🐍 por **\[Gabriel Fiuza\]**.
