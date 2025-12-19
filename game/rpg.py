@@ -136,7 +136,6 @@ class Hero(Personagem):
         print('Moedas insuficientes!')
         print(' ')
         self.show_shop()
-        choice = input('O que você deseja comprar? ')
 
     def shop(self):
         print('Bem-vindo à loja!')
@@ -154,6 +153,7 @@ class Hero(Personagem):
                     choice = input('O que você deseja comprar? ')
                 else:
                     self.insuficient_coins()
+                    choice = input('O que você deseja comprar? ')
             elif choice == '2':
                 if self._coins >= 20:
                     self._attack += 10
@@ -165,6 +165,7 @@ class Hero(Personagem):
                     choice = input('O que você deseja comprar? ')
                 else:
                     self.insuficient_coins()
+                    choice = input('O que você deseja comprar? ')
             elif choice == '3':
                 if self._coins >= 15:
                     self._defense += 5
@@ -176,6 +177,7 @@ class Hero(Personagem):
                     choice = input('O que você deseja comprar? ')
                 else:
                     self.insuficient_coins()
+                    choice = input('O que você deseja comprar? ')
             else:
                 print(' ')
                 print('Opção inválida!')
