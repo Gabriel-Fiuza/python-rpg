@@ -7,23 +7,55 @@ class MonsterType(Enum):
     ORC = 'Orc'
 
 class SkillType(Enum):
-    HEAL = 'heal'
+    FIREBALL = 'fireball'
     DOUBLE_SWORD = 'double sword'
     SHIELD = 'shield'
+class Skill():
+    def __init__(self, skill_type: SkillType, description):
+        self._skill_type = skill_type
+        self._description = description
+    def cast(self):
+        pass
+
+class SkillFireBall(Skill):
+    def __init__(self):
+        super().__init__(SkillType.FIREBALL.value, "Conjura uma bola de fogo que causa 100 de dano")
+
+    def cast(self, user, target):
+        target._current_life -= 100
+        print(f'✨  {user._name} usou {self._skill_type} e causou 100 de dano.')
+
+class SkillDoubleSword(Skill):
+    def __init__(self):
+        super().__init__(SkillType.DOUBLE_SWORD.value, "Causa 2x o dano normal")
+
+    def cast(self, user, target):
+        damage = (user._attack * 2) - target._defense
+        if damage < 0:
+            damage = 0
+        target.receive_damage(damage)
+        print(f'⚔️  {user._name} usou {self._skill_type}! Dano devastador de {damage}!')
+
+class SkillShield(Skill):
+    def __init__(self):
+        super().__init__(SkillType.SHIELD.value, "Aumenta a defesa em 50%")
+
+    def cast(self, user, target):
+        user._defense *= 1.5
+        print(f'🛡️  {user._name} usou {self._skill_type}! Defesa subiu para {user._defense}.')
 
 def chose_skill():
     print("Escolha a habilidade especial do herói:")
-    print("1 - Heal")
-    print("2 - Double sword")
-    print("3 - Shield")
+    print(f"1 - Fireball | Descrição: {SkillFireBall()._description}")
+    print(f"2 - Double sword | Descrição: {SkillDoubleSword()._description}")
+    print(f"3 - Shield | Descrição: {SkillShield()._description}")
     choice = input("Digite o número da habilidade escolhida: ")
     if choice == '1':
-        skill_chosen = SkillType.HEAL
+        return SkillFireBall()
     elif choice == '2':
-        skill_chosen = SkillType.DOUBLE_SWORD
+        return SkillDoubleSword()
     elif choice == '3':
-        skill_chosen = SkillType.SHIELD
-    return skill_chosen
+        return SkillShield()
 
 def spawn_monster(dificulty):
     monster_types = [MonsterType.MAGE, MonsterType.WARRIOR, MonsterType.ORC]
@@ -32,6 +64,8 @@ def spawn_monster(dificulty):
     atk = random.randint(5, 15) * dificulty
     defense = random.randint(5, 10) * dificulty
     return Monster(f'Monstro {chosen_type.value}', life, atk, defense, chosen_type)
+
+    
 class Personagem:
     def __init__(self, name, life, atk, defense):
         self._name = name
@@ -67,7 +101,7 @@ class Personagem:
             self._current_life = 0
 
 class Hero(Personagem):
-    def __init__(self, name, life, atk, defense, special: SkillType):
+    def __init__(self, name, life, atk, defense, special):
         super().__init__( name, life, atk, defense)
         self._special_skill = special
         self._exp = 0
@@ -180,15 +214,7 @@ class Hero(Personagem):
             print('O herói não possui poções de vida!')
     
     def use_skill(self, target):
-        if (self._special_skill.value == 'heal'):
-            self._current_life += 10
-            print(f'O herói se curou em 10 pontos de vida. Vida atual: {self._current_life}')
-        elif (self._special_skill.value == 'double sword'):
-            self._attack *= 2
-            print(f'O herói aumentou seu ataque para {self._attack}')
-        elif (self._special_skill.value == 'shield'):
-            self._defense *= 1.5
-            print(f'O herói aumentou sua defesa para {self._defense}')
+        self._special_skill.cast(self, target)
         
     def __str__(self):
         return f'{self._name} ({self._current_life} / {self._life})'
@@ -269,7 +295,7 @@ class Battle:
 
 # Exemplo de uso:
 hero = Hero('Fiuza', 100, 20, 25, chose_skill())
-print(f'O herói {hero._name} iniciou sua jornada com a habilidade especial: {hero._special_skill.value}')
+print(f'O herói {hero._name} iniciou sua jornada com a habilidade especial: {hero._special_skill._skill_type}')
 print('')
 number_battle = 1
 dificulty = 1
@@ -281,10 +307,10 @@ while hero.is_alive():
     battle = Battle(hero, time_monster)
     battle.start_battle()
     number_battle += 1
-    if number_battle % 3 == 0:
+    if number_battle % 3 == 0 and hero.is_alive():
         hero.refresh_potion()
         dificulty += 1
-    if number_battle % 5 == 0:
+    if number_battle % 5 == 0 and hero.is_alive():
         hero.shop()
 xp_total = hero._total_exp
 print(f'O herói acumulou um total de {xp_total} pontos de experiência.')
