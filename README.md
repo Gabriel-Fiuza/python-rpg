@@ -1,29 +1,42 @@
 ⚔️ The Pythonic RPG: Legacy Edition
 ===================================
 
-Um RPG de texto robusto e infinito desenvolvido em **Python**. Este projeto simula um sistema de batalha completo com mecânicas de RPG clássico, focado na aplicação prática de **Programação Orientada a Objetos (POO)** e lógica de sistemas.
+Um RPG de texto robusto ("Survival Mode") desenvolvido em Python. O projeto simula um sistema de batalha infinito com mecânicas de RPG clássico, focado na aplicação prática de Padrões de Projeto (Strategy), Programação Orientada a Objetos (POO) e Lógica de Sistemas.
 
 🌟 Sobre o Projeto
 ------------------
 
-O objetivo deste projeto foi criar um motor de jogo escalável onde um Herói enfrenta ondas infinitas de monstros. A cada batalha, a dificuldade aumenta, exigindo que o jogador gerencie recursos (ouro e poções), melhore seus atributos na loja e tome decisões estratégicas.
+O objetivo deste projeto foi criar um motor de jogo escalável onde um Herói enfrenta ondas infinitas de monstros. A cada batalha, a dificuldade aumenta, exigindo que o jogador gerencie recursos (ouro, poções e mana), melhore seus atributos na loja e tome decisões estratégicas.
+
+### Arquitetura Polimórfica (Strategy Pattern)
+
+Diferente de abordagens simples com if/else, o sistema de habilidades foi construído usando o padrão **Strategy**.
+
+*   Cada habilidade (Fireball, DoubleSword, Shield) é uma **Classe** própria que herda de uma classe base Skill.
+    
+*   O Herói não precisa saber _como_ a habilidade funciona, ele apenas invoca o método .cast(), delegando a execução para o objeto da habilidade específica.
 
 🚀 Funcionalidades Principais (v3.0)
 ------------------------------------
 
+
 ### 🗡️ Sistema de Combate Avançado
 
-*   **RNG (Random Number Generation):** Implementação de chances de **Crítico** (Dano x2) e **Esquiva** (Dano 0).
+*   **Combate dinâmico (RNG (Random Number Generation)):** Implementação de taxas de Crítico (15% de chance de dano dobrado) e Esquiva (5% de chance de ignorar dano).
+
+*   **Gerenciamento de Recursos:** O jogador deve administrar Vida, Mana (para skills) e Poções.
     
 *   **Skills Táticas:**
     
-    *   Heal: Cura instantânea.
+    *   Fire Ball: Dano explosivo.
         
     *   Double Sword: Ataque devastador.
         
     *   Shield: Buff defensivo.
         
 *   **Inimigos Dinâmicos:** Monstros (Mage, Warrior, Orc) gerados proceduralmente com atributos baseados na dificuldade atual.
+
+*   **Boss Battles:** A cada 7 rodadas, um monstro "Boss" aparece com dificuldade elevada.
     
 
 ### 💰 Economia e Loja (Novo!)
@@ -51,7 +64,7 @@ O objetivo deste projeto foi criar um motor de jogo escalável onde um Herói en
 
 O código foi estruturado seguindo boas práticas de Engenharia de Software:
 
-*   **Orientação a Objetos:** Uso intensivo de Classes, Herança (Hero herda de Personagem) e Polimorfismo.
+*   **Orientação a Objetos:** Uso intensivo de Classes, Herança e Polimorfismo.
     
 *   **Encapsulamento:** Proteção de atributos sensíveis (\_life, \_coins) com métodos de acesso controlados.
     
@@ -131,9 +144,9 @@ def damage(self, target):
 
 *   \[ \] Adicionar persistência de dados (Salvar/Carregar jogo em JSON).
     
-*   \[ \] Implementar Boss Battles a cada 10 rodadas.
+*   \[ \] Adicionar sistema de inventário para múltiplos itens.
     
-*   \[ \] Criar interface gráfica com Pygame ou Web.
+*   \[ \] Criar interface gráfica.
     
 
 Desenvolvido com 🐍 por **\[Gabriel Fiuza\]**.
